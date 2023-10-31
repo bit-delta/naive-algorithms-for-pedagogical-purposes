@@ -29,10 +29,15 @@ class Function:
 
 
 my_func = Function([10, 12, 2, 0, 1, 4], [0, 1, 2, 3, 4, 5])
-# my_func_derivative = my_func.derivative()
-
 print(my_func.coefficients, my_func.exponents)
-print(vars(my_func.derivative))
-print(my_func)
+print("my_func: " + str(my_func))
+
+# Accessing the derivative attribute causes a derivative to be generated
+print("my_func.derivative " + str(my_func.derivative))
+print("vars(my_func): " + str(vars(my_func)))
+
+# If the derivative attribute has not been accessed, it is still None
+print("vars(my_func.derivative) " + str(vars(my_func.derivative)))
+
 
 # TODO: Taylor Series function like taylor(function, n) returns nth degree Taylor series

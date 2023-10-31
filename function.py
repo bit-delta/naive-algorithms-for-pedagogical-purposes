@@ -1,5 +1,5 @@
 class Function:
-    def __init__(self, coefficients: list, exponents: list) -> None:
+    def __init__(self, coefficients: list, exponents: list, variable='x') -> None:
         if isinstance(coefficients, list):
             self.coefficients = coefficients
         else:
@@ -8,10 +8,12 @@ class Function:
             self.exponents = exponents
         else:
             raise TypeError("Function.exponents must be a list.")
+        self.variable = variable
         self._derivative = None
 
     def __str__(self):
-        return 'f(x) = ' + ' + '.join([str(c) + "x^" + str(e) for c, e in zip(self.coefficients, self.exponents)])
+        return ' + '.join([f'{c}*({self.variable})^{e}' for c, e in zip(self.coefficients, self.exponents)])
+        # return 'f(x) = ' + ' + '.join([f'{c}{self.variable}^{e}' for c, e in zip(self.coefficients, self.exponents)])
 
     # Simplest form of derivative. Single-variable linear equation with no chain rule or special cases (e.g. e^x)
     @property
@@ -28,9 +30,27 @@ class Function:
         return self._derivative
 
 
+# Computes the first n terms of the Taylor series of a Function f centered at a
+def taylor(f: Function, n, a):
+    num = 0
+    coefficients = []
+    exponents = []
+    while num < n:
+        if num == 0:
+            coefficients.append(f)
+        else:
+            coefficients.append(f.derivative)
+            f = f.derivative
+        exponents.append(num)
+        num += 1
+    coefficients = [f'(({x})/{n}!)' for x, n in zip(coefficients, range(n))]
+    return Function(coefficients, exponents, f'x-{a}')
+
+
+# Initialize a Function with coefficients and exponents
 my_func = Function([10, 12, 2, 0, 1, 4], [0, 1, 2, 3, 4, 5])
 print(my_func.coefficients, my_func.exponents)
-print("my_func: " + str(my_func))
+print(f'my_func: {my_func}')
 
 # Accessing the derivative attribute causes a derivative to be generated
 print("my_func.derivative " + str(my_func.derivative))
@@ -39,5 +59,14 @@ print("vars(my_func): " + str(vars(my_func)))
 # If the derivative attribute has not been accessed, it is still None
 print("vars(my_func.derivative) " + str(vars(my_func.derivative)))
 
+# Taylor series centered at a = 1 for x^2
+my_simple_func = Function([1], [2])
+my_taylor = taylor(my_simple_func, 4, 1)
+print(f'my_simple_func: {my_simple_func}')
+print(f'my_taylor: {my_taylor}')
+print('my_taylor.coefficients: ', *[str(f) + ', ' for f in my_taylor.coefficients])
 
-# TODO: Taylor Series function like taylor(function, n) returns nth degree Taylor series
+# Composition of functions
+my_composed = Function([1, 10], [2, 3], my_func)
+print(f'my_composed: {my_composed}')
+print(f'vars(my_composed): {vars(my_composed)}')

@@ -26,7 +26,7 @@ class Function:
             for i in range(len(self.coefficients)):
                 new_coefficients.append(self.exponents[i] * self.coefficients[i])
                 new_exponents.append(self.exponents[i] - 1)
-            self._derivative = Function(new_coefficients, new_exponents)
+            self._derivative = Function(new_coefficients, new_exponents, self.variable)
         return self._derivative
 
 
@@ -47,26 +47,28 @@ def taylor(f: Function, n, a):
     return Function(coefficients, exponents, f'x-{a}')
 
 
-# Initialize a Function with coefficients and exponents
-my_func = Function([10, 12, 2, 0, 1, 4], [0, 1, 2, 3, 4, 5])
-print(my_func.coefficients, my_func.exponents)
-print(f'my_func: {my_func}')
+if __name__ == '__main__':
+    # Initialize a Function with coefficients and exponents
+    my_func = Function([10, 12, 2, 0, 1, 4], [0, 1, 2, 3, 4, 5])
+    print(my_func.coefficients, my_func.exponents)
+    print(f'my_func: {my_func}')
 
-# Accessing the derivative attribute causes a derivative to be generated
-print("my_func.derivative " + str(my_func.derivative))
-print("vars(my_func): " + str(vars(my_func)))
+    # Accessing the derivative attribute causes a derivative to be generated
+    print("my_func.derivative " + str(my_func.derivative))
+    print("vars(my_func): " + str(vars(my_func)))
 
-# If the derivative attribute has not been accessed, it is still None
-print("vars(my_func.derivative) " + str(vars(my_func.derivative)))
+    # If the derivative attribute has not been accessed, it is still None
+    print("vars(my_func.derivative) " + str(vars(my_func.derivative)))
 
-# Taylor series centered at a = 1 for x^2
-my_simple_func = Function([1], [2])
-my_taylor = taylor(my_simple_func, 4, 1)
-print(f'my_simple_func: {my_simple_func}')
-print(f'my_taylor: {my_taylor}')
-print('my_taylor.coefficients: ', *[str(f) + ', ' for f in my_taylor.coefficients])
+    # Taylor series centered at a = 1 for x^2
+    my_simple_func = Function([1], [2])
+    my_taylor = taylor(my_simple_func, 4, 1)
+    print(f'my_simple_func: {my_simple_func}')
+    print(f'my_taylor: {my_taylor}')
+    print('my_taylor.coefficients: ', *[str(f) + ', ' for f in my_taylor.coefficients])
 
-# Composition of functions
-my_composed = Function([1, 10], [2, 3], my_func)
-print(f'my_composed: {my_composed}')
-print(f'vars(my_composed): {vars(my_composed)}')
+    # Composition of functions
+    my_composed = Function([1, 10], [2, 3], my_func)
+    print(f'my_composed: {my_composed}')
+    print(f'vars(my_composed): {vars(my_composed)}')
+

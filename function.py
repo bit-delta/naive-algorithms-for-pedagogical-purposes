@@ -31,16 +31,17 @@ class Function:
 
 
 # Computes the first n terms of the Taylor series of a Function f centered at a
-def taylor(f: Function, n, a):
+def taylor(f: Function, n, a) -> Function:
     num = 0
     coefficients = []
     exponents = []
+    f_at_a = Function(f.coefficients, f.exponents, f.variable.replace('x', str(a)))
     while num < n:
         if num == 0:
-            coefficients.append(f)
+            coefficients.append(f_at_a)
         else:
-            coefficients.append(f.derivative)
-            f = f.derivative
+            coefficients.append(f_at_a.derivative)
+            f_at_a = f_at_a.derivative
         exponents.append(num)
         num += 1
     coefficients = [f'(({x})/{n}!)' for x, n in zip(coefficients, range(n))]

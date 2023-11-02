@@ -12,10 +12,10 @@ class Function:
         self._derivative = None
 
     def __str__(self):
-        return ' + '.join([f'{c}*({self.variable})^{e}' for c, e in zip(self.coefficients, self.exponents)])
-        # return 'f(x) = ' + ' + '.join([f'{c}{self.variable}^{e}' for c, e in zip(self.coefficients, self.exponents)])
+        return ' + '.join([f'{c}*({self.variable})**{e}' for c, e in zip(self.coefficients, self.exponents)])
+        # return 'f(x) = ' + ' + '.join([f'{c}{self.variable}**{e}' for c, e in zip(self.coefficients, self.exponents)])
 
-    # Simplest form of derivative. Single-variable linear equation with no chain rule or special cases (e.g. e^x)
+    # Simplest form of derivative. Single-variable linear equation with no chain rule or special cases (e.g. e**x)
     @property
     def derivative(self):
         if self._derivative is None:
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     # If the derivative attribute has not been accessed, it is still None
     print("vars(my_func.derivative) " + str(vars(my_func.derivative)))
 
-    # Taylor series centered at a = 1 for x^2
+    # Taylor series centered at a = 1 for x**2
     my_simple_func = Function([1], [2])
     my_taylor = taylor(my_simple_func, 4, 1)
     print(f'my_simple_func: {my_simple_func}')

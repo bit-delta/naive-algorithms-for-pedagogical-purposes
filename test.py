@@ -62,6 +62,15 @@ class TestFunctionClass(unittest.TestCase):
         self.assertEqual(df_dx.exponents, [1])
         self.assertEqual(df_dx.variable, 'x+1')
 
+    def test_taylor(self):
+        # 3rd degree Taylor polynomial of f(x) = x**2, at a = 1
+        taylor = function.taylor(function.Function([1], [2], 'x'), 4, 1)
+        self.assertTrue(isinstance(taylor, function.Function))
+        self.assertEqual(str(taylor), '((1)/0!)*(x-1)**0 + ((2)/1!)*(x-1)**1 + ((2)/2!)*(x-1)**2 + ((0.0)/3!)*(x-1)**3')
+        self.assertEqual(taylor.coefficients, ['((1)/0!)', '((2)/1!)', '((2)/2!)', '((0.0)/3!)'])
+        self.assertEqual(taylor.exponents, [*range(4)])
+        self.assertEqual(taylor.variable, 'x-1')
+
 
 if __name__ == '__main__':
     unittest.main()

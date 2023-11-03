@@ -47,6 +47,7 @@ def taylor(f: Function, n, a) -> Function:
             f_at_a = f_at_a.derivative
         exponents.append(num)
         num += 1
+    # Simplify coefficients if we can parse them
     if all(['!' not in str(c) for c in coefficients]):
         coefficients = [eval_expr(str(c)) for c in coefficients]
     coefficients = [f'(({x})/{n}!)' for x, n in zip(coefficients, range(n))]
@@ -79,7 +80,7 @@ if __name__ == '__main__':
     print(f'vars(my_composed): {vars(my_composed)}')
 
     # Simplify coefficients
-    print(f'my_taylor : {my_taylor}')
+    print(f'my_taylor: {my_taylor}')
     print(f'my_taylor_simplified: {my_taylor}')
 
     # Cannot parse '!', forced to expand

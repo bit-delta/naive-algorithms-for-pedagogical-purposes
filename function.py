@@ -1,3 +1,6 @@
+from parse import eval_expr
+
+
 class Function:
     def __init__(self, coefficients: list, exponents: list, variable='x') -> None:
         if isinstance(coefficients, list):
@@ -44,6 +47,8 @@ def taylor(f: Function, n, a) -> Function:
             f_at_a = f_at_a.derivative
         exponents.append(num)
         num += 1
+    if all(['!' not in str(c) for c in coefficients]):
+        coefficients = [eval_expr(str(c)) for c in coefficients]
     coefficients = [f'(({x})/{n}!)' for x, n in zip(coefficients, range(n))]
     return Function(coefficients, exponents, f'x-{a}')
 
@@ -73,3 +78,9 @@ if __name__ == '__main__':
     print(f'my_composed: {my_composed}')
     print(f'vars(my_composed): {vars(my_composed)}')
 
+    # Simplify coefficients
+    print(f'my_taylor : {my_taylor}')
+    print(f'my_taylor_simplified: {my_taylor}')
+
+    # Cannot parse '!', forced to expand
+    print(f'nasty_taylor_of_taylor:  {taylor(my_taylor, 4, 0)}')

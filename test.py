@@ -1,5 +1,6 @@
-import unittest
+import distribution
 import function
+import unittest
 
 
 class TestFunctionClass(unittest.TestCase):
@@ -70,6 +71,23 @@ class TestFunctionClass(unittest.TestCase):
         self.assertEqual(taylor.coefficients, ['((1)/0!)', '((2)/1!)', '((2)/2!)', '((0.0)/3!)'])
         self.assertEqual(taylor.exponents, [*range(4)])
         self.assertEqual(taylor.variable, 'x-1')
+
+
+class TestDistributionClass(unittest.TestCase):
+
+    def test_distribution_constructor(self):
+        with self.assertRaises(TypeError):
+            distribution.Distribution(3)
+        with self.assertRaises(TypeError):
+            distribution.Distribution('l')
+        with self.assertRaises(TypeError):
+            distribution.Distribution(3.0)
+        with self.assertRaises(TypeError):
+            distribution.Distribution(True)
+        with self.assertRaises(TypeError):
+            distribution.Distribution([True])
+        with self.assertRaises(TypeError):
+            distribution.Distribution(['string', 3])
 
 
 if __name__ == '__main__':

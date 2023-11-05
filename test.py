@@ -88,6 +88,16 @@ class TestDistributionClass(unittest.TestCase):
             distribution.Distribution([True])
         with self.assertRaises(TypeError):
             distribution.Distribution(['string', 3])
+        with self.assertRaises(TypeError):
+            distribution.Distribution([])
+
+    def test_mean(self):
+        mean = distribution.Distribution([1, 2, 3]).mean
+        self.assertEqual(mean, 2.0)
+        mean = distribution.Distribution([1.0, 2.0, 3.0]).mean
+        self.assertEqual(mean, 2.0)
+        mean = distribution.Distribution([1.0, -1, 3]).mean
+        self.assertEqual(mean, 1.0)
 
 
 if __name__ == '__main__':
